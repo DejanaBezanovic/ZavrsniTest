@@ -23,7 +23,7 @@ class App extends React.Component {
    
                             {window.localStorage['jwt'] ? 
                             <Button onClick = {()=>logout()}>Logout</Button> :
-                            <Nav.Link as={Link} to="/login">Log in</Nav.Link>
+                            <Nav.Link as={Link} to="/login" style={{color: 'white'}} >Log in</Nav.Link>
                             }
                         </Nav>
                     </Navbar>

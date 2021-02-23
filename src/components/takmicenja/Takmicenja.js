@@ -17,6 +17,7 @@ class Takmicenja extends React.Component {
     } 
 
     componentDidMount() {
+        this.check()
         this.getTakmicenja(0)
         this.getFormati();
     }
@@ -24,6 +25,10 @@ class Takmicenja extends React.Component {
     goToAdd() {
         this.props.history.push("/takmicenja/add");
     }
+
+    check() {
+        {window.localStorage['jwt'] ? this.render() : this.props.history.push('/login')}
+      }
 
     getTakmicenja(page) {
         let config = { params: {
