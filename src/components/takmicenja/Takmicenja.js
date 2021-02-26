@@ -1,6 +1,9 @@
 import React from 'react';
 import AppAxios from './../../apis/AppAxios';
 import { Table, Button, Form, ButtonGroup } from "react-bootstrap";
+import getFormatiAction from "../../actions/GetFormati";
+import { connect } from "react-redux";
+
 
 class Takmicenja extends React.Component {
 
@@ -19,7 +22,7 @@ class Takmicenja extends React.Component {
     componentDidMount() {
         this.check()
         this.getTakmicenja(0)
-        this.getFormati();
+        this.props.getFormati();
     }
 
     goToAdd() {
@@ -56,19 +59,6 @@ class Takmicenja extends React.Component {
                     alert('Error occured please try again!');
                 });
     } 
-
-    getFormati() {
-        AppAxios.get('/formati')
-        .then(res => {
-            console.log(res);
-            this.setState({formati: res.data});
-        })
-        .catch(error => {
-            // handle error
-            console.log(error);
-            alert('Error occured please try again!');
-        });
-    }
 
     pretraga() {
         this.getTakmicenja(0)
@@ -127,7 +117,7 @@ class Takmicenja extends React.Component {
                       as="select"
                     >
                       <option value={-1}></option>
-                      {this.state.formati.map((format) => {
+                      {this.props.formati.map((format) => {
                         return (
                           <option value={format.id} key={format.id}>
                             {format.tip}
@@ -203,4 +193,13 @@ class Takmicenja extends React.Component {
         }
     }
 
-    export default Takmicenja;
+    // export default Takmicenja;
+
+    const mapStateToProps = (state, ownProps) => {
+      // console.log(state);
+      return { formati: state.formati };
+    };
+    
+    export default connect(mapStateToProps, {
+      getFormati: getFormatiAction,
+    })(Takmicenja);

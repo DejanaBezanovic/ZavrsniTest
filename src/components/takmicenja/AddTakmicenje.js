@@ -1,6 +1,8 @@
 import React from 'react';
 import AppAxios from './../../apis/AppAxios';
 import {Button, Form} from "react-bootstrap";
+import getFormatiAction from "../../actions/GetFormati";
+import { connect } from "react-redux";
 
 
 
@@ -25,21 +27,21 @@ class AddTakmicenje extends React.Component {
     }
 
     componentDidMount() {
-        this.getFormati()
+      this.props.getFormati();
     }
 
-    getFormati() {
-        AppAxios.get('/formati')
-        .then(res => {
-            console.log(res);
-            this.setState({formati: res.data});
-        })
-        .catch(error => {
-            // handle error
-            console.log(error);
-            alert('Error occured please try again!');
-        });
-    }
+    // getFormati() {
+    //     AppAxios.get('/formati')
+    //     .then(res => {
+    //         console.log(res);
+    //         this.setState({formati: res.data});
+    //     })
+    //     .catch(error => {
+    //         // handle error
+    //         console.log(error);
+    //         alert('Error occured please try again!');
+    //     });
+    // }
 
     valueInputChanged(e) {
         let input = e.target;
@@ -119,7 +121,7 @@ class AddTakmicenje extends React.Component {
               as="select"
             >
               <option value={-1}></option>
-              {this.state.formati.map((formati) => {
+              {this.props.formati.map((formati) => {
                 return (
                   <option value={formati.id} key={formati.id}>
                     {formati.tip}
@@ -138,5 +140,11 @@ class AddTakmicenje extends React.Component {
 }
 
 
+const mapStateToProps = (state, ownProps) => {
+  // console.log(state);
+  return { formati: state.formati };
+};
 
-export default AddTakmicenje;
+export default connect(mapStateToProps, {
+  getFormati: getFormatiAction,
+})(AddTakmicenje);

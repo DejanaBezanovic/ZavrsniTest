@@ -6,6 +6,19 @@ var AppAxios = axios.create({
   /* other custom settings */
 });
 
+ export const getFormati = async () => {
+  try {
+    let response = await AppAxios.get('/formati');
+    return response.data;
+
+   }
+    catch (err) {
+      console.log(err);
+      return [];
+}
+
+}
+
 AppAxios.interceptors.request.use(
   function success(config){
     const token = window.localStorage['jwt'];
